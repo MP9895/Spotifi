@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur Spotifi !{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+{% block body %}
+
+<div class="container text-center col-12 col-md-6 pt-5">
+    <h1 class="pb-2">Bienvenue sur Spotifi</h1>
+</div>
+
+  <div class="container">
+    <div class="row g-4">
+      {% for m in musiques %}
+      <div class="col-6 zoom">
+        <div class="card border-dark border border-4 rounded-3 text-white bg-dark mb-3">
+          <img src="{{asset('images/artiste/' ~ m.artiste.photo)}}" class="card-img-top" style="max-width:100%;">
+          <div class="card-body bg-dark text-center">
+            <p class="card text-dark bg-secondary mb-3">Titre : {{ m.titre }}</p>
+            <p class="card text-dark bg-secondary mb-3">Album : {{ m.album.nom }}</p>
+            <p class="card text-dark bg-secondary mb-3"> Artiste : {{ m.artiste.nom }}</p>
+            <p class="card text-dark bg-secondary mb-3"> Genre : {{ m.genre }}</p>
+            {% if app.user %}
+              {% if m in app.user.musiques %}
+                <div class="mb-1 ">Ce titre est dans votre playlist</div>
+              {% else %}
+                <div class="d-grip gap-2 d-md-flex justify-content-center">
+                  <a class="btn btn-sm btn-secondary me-md-2" href="{{path('ajoutPlaylist', { 'id' : m.id })}}">Ajout a la playlist</a>
+                  <a class="btn btn-sm btn-secondary" href="{{m.lienYT}}" target="_blank">Lien Youtube</a>
+                  {# <a href="{{url('ma_route')}}" target="_blank" >lien</a> #}
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+
+  {% block javascripts %}
+  {% endblock %}
+
+  {% endblock %}
